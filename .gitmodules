@@ -1,0 +1,9 @@
+[submodule "backend"]
+	path = backend
+	url = https://github.com/MiraiMindz/WorkIO_Backend.git
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/MiraiMindz/WorkIO_Frontend.git
+[submodule "server"]
+	path = server
+	url = https://github.com/MiraiMindz/WorkIO_Server.git
