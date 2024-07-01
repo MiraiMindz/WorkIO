@@ -28,6 +28,8 @@ cd ./frontend
 npm install
 cd ..
 
+rm -rf ./backend/proto/out/*.go
+rm -rf ./server/proto/out/*.go
 protoc --go_out=./backend --go-grpc_out=./backend ./protocolbuffers/*.proto
 protoc --go_out=./server --go-grpc_out=./server ./protocolbuffers/*.proto
 

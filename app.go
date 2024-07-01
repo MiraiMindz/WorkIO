@@ -19,12 +19,12 @@ func NewApp() *App {
 // startup is called at application startup
 func (a *App) startup(ctx context.Context) {
 	// Perform your setup here
+	go api.Server()
 	a.ctx = ctx
 }
 
 // domReady is called after front-end resources have been loaded
 func (a App) domReady(ctx context.Context) {
-	go api.Server()
 	// Add your action here
 }
 
