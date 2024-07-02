@@ -107,7 +107,31 @@ createBackendKeys() {
     cd ..
 }
 
+createDatabaseKeys() {
+    echo "CREATING DATABASE KEYS"
+
+    privateKey=$(openssl genpkey -algorithm RSA -pass pass:"${randomPassword}" -aes256 -pkeyopt rsa_keygen_bits:4096)
+    pkcs8PrivateKey=$(echo "${privateKey}" | openssl pkcs8 -passin pass:"${randomPassword}" -inform PEM -outform PEM -topk8 -passout pass:"${randomPassword}")
+    publicKey=$(echo "${privateKey}" | openssl rsa -pubout -passin pass:"${randomPassword}")
+
+    cd ./frontend
+    printf "\n" >> .env.local
+    echo "NEXT_PUBLIC_DATABASE_PUBLIC_KEY=\"${publicKey}\"" >> .env.local
+    echo "NEXT_PUBLIC_DATABASE_PRIVATE_KEY=\"${pkcs8PrivateKey}\"" >> .env.local
+
+    cd ..
+    echo "DATABASE_PUBLIC_KEY=\"${publicKey}\"" >> .env
+    echo "DATABASE_PRIVATE_KEY=\"${pkcs8PrivateKey}\"" >> .env
+
+    cd ./server
+    echo "DATABASE_PUBLIC_KEY=\"${publicKey}\"" >> .env
+    echo "DATABASE_PRIVATE_KEY=\"${pkcs8PrivateKey}\"" >> .env
+
+    cd ..
+}
+
 # variable=$(openssl genpkey -algorithm RSA -pass pass:1234 -aes256 -pkeyopt rsa_keygen_bits:4096)
 createFrontendKeys
 createAPIKeys
 createBackendKeys
+createDatabaseKeys
